@@ -35,7 +35,7 @@ PhongLighting::~PhongLighting()
 {
 }
 
-void PhongLighting::get(sf::RenderStates& states, float rotation, const sf::Texture& normal, const sf::Texture& emissive)
+const sf::Shader* PhongLighting::get(float rotation, const sf::Texture& normal, const sf::Texture& emissive)
 {
 	lightShader.setUniform("texBase", sf::Shader::CurrentTexture);
 	lightShader.setUniform("normal", normal);
@@ -46,5 +46,5 @@ void PhongLighting::get(sf::RenderStates& states, float rotation, const sf::Text
 	sf::Vector2f adjustedHorizontal(direction.x, direction.y);
 	Clockwork::revolve(adjustedHorizontal, -rotation);
 	lightShader.setUniform("lightVector", sf::Vector3f(adjustedHorizontal.x, adjustedHorizontal.y, direction.z));
-	states.shader = &lightShader;
+	return &lightShader;
 }

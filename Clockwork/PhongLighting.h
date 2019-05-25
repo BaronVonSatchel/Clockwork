@@ -8,7 +8,7 @@ public:
 	PhongLighting();
 	~PhongLighting();
 
-	void get(sf::RenderStates& states, float rotation, const sf::Texture& normal, const sf::Texture& emissive);
+	const sf::Shader* get(float rotation, const sf::Texture& normal, const sf::Texture& emissive);
 
 	sf::Vector3f direction;
 

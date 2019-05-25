@@ -59,19 +59,29 @@ namespace Clockwork {
 		///<returns>True if successful, false if actor is null or never a part of the scene</returns>
 		bool removeActor(Actor* actor);
 
-		const WorldSettings worldSettings;
+		void resetBaseBuffer();
+
+		void resetNormalBuffer();
+
+		void resetEmissiveBuffer();
 
 		virtual void postProcess(sf::RenderTarget& target, const sf::Texture& texture);
-		
+
+		const WorldSettings worldSettings;
+
 		sf::RenderTexture world;
 
 		bool lightingEnabled;
 
 		PhongLighting lighting;
 
+		sf::View worldView;
+
 	protected:
 		///<summary>The GUI for this Scene.</summary>
 		tgui::Gui gui;
+
+		bool enablePostProcess = true;
 
 		//sf::RenderTexture actorZBuffer;
 	private:
@@ -85,5 +95,7 @@ namespace Clockwork {
 		std::set<Actor*, compareLayer> actors;
 
 		sf::Shader depthShader;
+
+		sf::RenderTexture baseBuffer, normalBuffer, emissiveBuffer, postProcessBuffer;
 	};
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Clockwork.h"
+#include "Material.h"
 #include <SFML/Graphics.hpp>
 #include <set>
 #include <unordered_map>
@@ -65,6 +66,9 @@ namespace Clockwork {
 		///<summary>Get the absolute transform of this actor relative to the world origin.</summary>
 		sf::Transform getWorldTransform() const;
 
+		///<summary>Get the absolute rotation of this actor. Used when adjusting normals for lighting.</summary>
+		float getWorldRotation() const;
+
 		///<summary>Whether this static or dynamic, and whether it can collide with others.
 		///Use the bitmasks PHYSICS_DYNAMIC and PHYSICS_COLLISION to test individually.</summary>
 		char getActorPhysics() const;
@@ -72,12 +76,16 @@ namespace Clockwork {
 		///<summary>The user-defined mass of this actor, or zero if it has static physics.</summary>
 		float getMass() const;
 
+		void setMaterial(Material* material);
+
 		///<summary>Determines when this actor will be drawn relative to others. Higher values will be drawn later and therefore on top.</summary>
 		unsigned char layer = 0;
 
 		///<summary>Determines whether to draw this actor at all. Invisible actors can still tick.</summary>
 		bool visible = true;
 
+		virtual const sf::Shape& getShape() const;
+		
 		float getLayerZ() const;
 
 	protected:
@@ -107,6 +115,8 @@ namespace Clockwork {
 		std::set<Actor*, compareLayer> children;
 
 		float layerZ;
+
+		Material* material;
 
 		//static std::unordered_map<std::string, Actor*(*)()> actorClasses;
 	};

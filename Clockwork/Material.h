@@ -4,13 +4,12 @@
 #include <SFML/Graphics.hpp>
 
 namespace Clockwork {
-	extern "C" struct CLOCKWORK_API Material {
-		bool lit;
+	extern "C" class CLOCKWORK_API Material {
+	public: 
+		virtual const sf::Shader* base() const = 0;
 
-		const sf::Texture& base;
+		virtual const sf::Shader* normal() const = 0;
 
-		const sf::Texture& normal;
-
-		const sf::Texture& emissive;
+		virtual const sf::Shader* emissive() const = 0;
 	};
 }

@@ -41,11 +41,31 @@ void Scene::drawScene(sf::RenderTarget& target)
 
 	for (auto& actor : actors) {
 
-		world.clear(sf::Color::Transparent);
-		world.draw(*actor);
-		world.display();
+		//world.clear(sf::Color::Transparent);
 
-		postProcess(target, world.getTexture());
+		resetBaseBuffer();
+		baseBuffer.draw(actor->getShape(), actor->material->base());
+		baseBuffer.display();
+		resetNormalBuffer();
+		normalBuffer.draw(actor->getShape(), actor->material->normal());
+		normalBuffer.display();
+		resetEmissiveBuffer();
+		emissiveBuffer.draw(actor->getShape(), actor->material->emissive());
+		emissiveBuffer.display();
+
+		sf::Sprite sprite;
+		sprite.setTexture(baseBuffer.getTexture());
+		if (enablePostProcess) {
+			postProcessBuffer.draw(sprite, lighting.get(actor->getWorldRotation(), normalBuffer.getTexture(), emissiveBuffer.getTexture()));
+			postProcessBuffer.display();
+			postProcess(target, postProcessBuffer.getTexture());
+		}
+		else {
+			target.draw(sprite, lighting.get(actor->getWorldRotation(), normalBuffer.getTexture(), emissiveBuffer.getTexture()));
+		}
+		//world.display();
+
+		//postProcess(target, world.getTexture());
 	}
 
 	gui.draw();
@@ -68,8 +88,12 @@ void Clockwork::Scene::scheduleSceneChange(Scene * scene)
 
 void Clockwork::Scene::init(sf::RenderTarget & target)
 {
+	worldView = target.getView();
 	world.create(target.getSize().x, target.getSize().y);
-	//actorZBuffer.create(target.getSize().x, target.getSize().y);
+	baseBuffer.create(target.getSize().x, target.getSize().y);
+	normalBuffer.create(target.getSize().x, target.getSize().y);
+	emissiveBuffer.create(target.getSize().x, target.getSize().y);
+	postProcessBuffer.create(target.getSize().x, target.getSize().y);
 	gui.setTarget( target );
 	setup(target);
 }
@@ -91,6 +115,24 @@ bool Clockwork::Scene::spawnActor(Actor * actor)
 bool Clockwork::Scene::removeActor(Actor * actor)
 {
 	return actors.erase(actor);
+}
+
+void Clockwork::Scene::resetBaseBuffer()
+{
+	baseBuffer.clear(sf::Color::Transparent);
+	baseBuffer.setView(worldView);
+}
+
+void Clockwork::Scene::resetNormalBuffer()
+{
+	normalBuffer.clear(sf::Color::Black);
+	normalBuffer.setView(worldView);
+}
+
+void Clockwork::Scene::resetEmissiveBuffer()
+{
+	emissiveBuffer.clear(sf::Color::Black);
+	emissiveBuffer.setView(worldView);
 }
 
 void Clockwork::Scene::postProcess(sf::RenderTarget & target, const sf::Texture & texture)

@@ -39,6 +39,12 @@ sf::Transform Clockwork::Actor::getWorldTransform() const
 	else return getTransform();
 }
 
+float Clockwork::Actor::getWorldRotation() const
+{
+	Actor* parent = getParent();
+	return getRotation() + (parent ? parent->getWorldRotation() : 0.0f);
+}
+
 char Clockwork::Actor::getActorPhysics() const
 {
 	if (parent) return 0;
@@ -48,6 +54,17 @@ char Clockwork::Actor::getActorPhysics() const
 float Clockwork::Actor::getMass() const
 {
 	return (physics & PHYSICS_DYNAMIC) ? std::max(mass, 0.0f) : 0.0f;
+}
+
+void Clockwork::Actor::setMaterial(Material * material)
+{
+	this->material = material;
+}
+
+const sf::Shape & Clockwork::Actor::getShape() const
+{
+	// TODO: insert return statement here
+	return sf::RectangleShape();
 }
 
 float Clockwork::Actor::getLayerZ() const

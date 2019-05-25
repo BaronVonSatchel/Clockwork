@@ -63,6 +63,7 @@ namespace Clockwork {
 		tgui::ChildWindow::Ptr consoleWindow;
 		tgui::ChatBox::Ptr consoleLog;
 		tgui::EditBox::Ptr consoleCommand;
+
 	};
 
 }

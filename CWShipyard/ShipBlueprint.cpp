@@ -36,7 +36,7 @@ void ShipBlueprint::drawActor(sf::RenderTarget & target, sf::RenderStates states
 		target.draw(sf::Sprite(getStitchedInterior()), states);
 	}
 	else {
-		getScene()->lighting.get(states, getRotation(), getStitchedExteriorNormal(), getStitchedExteriorEmissive());
+		//getScene()->lighting.get(states, getRotation(), getStitchedExteriorNormal(), getStitchedExteriorEmissive());
 		target.draw(sf::Sprite(getStitchedExteriorBase()), states);
 	}
 }
