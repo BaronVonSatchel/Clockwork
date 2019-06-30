@@ -14,7 +14,7 @@ enum PlacementLegality {
 	LEGAL, ILLEGAL_OUT_OF_BOUNDS, ILLEGAL_OVERLAP, ILLEGAL_NOT_ADJACENT, ILLEGAL_SPECIAL_RULES
 };
 
-class ShipBlueprint : public Clockwork::Actor
+class ShipBlueprint : public cw::Actor
 {
 public:
 	ShipBlueprint();

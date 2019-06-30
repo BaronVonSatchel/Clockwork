@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <limits>
 
-using namespace Clockwork; 
+using namespace cw; 
 
 //std::unordered_map<std::string, Actor*(*)()> Actor::actorClasses;
 
@@ -20,67 +20,53 @@ Actor::~Actor()
 {
 }
 
-Scene * Clockwork::Actor::getScene() const
+Scene * cw::Actor::getScene() const
 {
 	return scene;
 }
 
-void Clockwork::Actor::draw(sf::RenderTarget & target, sf::RenderStates states) const
-{
-	if (!visible) return;
-	states.transform *= getTransform();
-	drawActor(target, states);
-	for (auto& child : children) child->draw(target, states);
-}
-
-sf::Transform Clockwork::Actor::getWorldTransform() const
+sf::Transform cw::Actor::getWorldTransform() const
 {
 	if (parent) return parent->getWorldTransform() * getTransform();
 	else return getTransform();
 }
 
-float Clockwork::Actor::getWorldRotation() const
+float cw::Actor::getWorldRotation() const
 {
 	Actor* parent = getParent();
 	return getRotation() + (parent ? parent->getWorldRotation() : 0.0f);
 }
 
-char Clockwork::Actor::getActorPhysics() const
+char cw::Actor::getActorPhysics() const
 {
 	if (parent) return 0;
 	else return physics;
 }
 
-float Clockwork::Actor::getMass() const
+float cw::Actor::getMass() const
 {
 	return (physics & PHYSICS_DYNAMIC) ? std::max(mass, 0.0f) : 0.0f;
 }
 
-void Clockwork::Actor::setMaterial(Material * material)
+void cw::Actor::setMaterial(Material * material)
 {
 	this->material = material;
 }
 
-const sf::Shape & Clockwork::Actor::getShape() const
-{
-	// TODO: insert return statement here
-	return sf::RectangleShape();
-}
-
-float Clockwork::Actor::getLayerZ() const
+float cw::Actor::getLayerZ() const
 {
 	return layerZ;
 }
 
-void Clockwork::Actor::tick(const sf::Time & timestep)
+void cw::Actor::tick(const sf::Time & timestep)
 {
 }
 
-void Clockwork::Actor::drawActor(sf::RenderTarget & target, sf::RenderStates states) const
+void cw::Actor::drawActor(sf::RenderTarget & target, sf::RenderStates states) const
 {
 }
 
-bool Clockwork::Actor::attachTo(Actor * parent)
+bool cw::Actor::attachTo(Actor * parent)
 {
 	if (this->parent) detach();
 
@@ -93,29 +79,29 @@ bool Clockwork::Actor::attachTo(Actor * parent)
 	else return false;
 }
 
-void Clockwork::Actor::detach()
+void cw::Actor::detach()
 {
 	parent->children.erase(this);
 	parent = nullptr;
 }
 
-Actor * Clockwork::Actor::getParent() const
+Actor * cw::Actor::getParent() const
 {
 	return parent;
 }
 
-Actor * Clockwork::Actor::getRoot()
+Actor * cw::Actor::getRoot()
 {
 	if (parent) return parent->getRoot();
 	else return this;
 }
 
-const std::set<Actor*, compareLayer> Clockwork::Actor::getChildren() const
+const std::set<Actor*, compareLayer> cw::Actor::getChildren() const
 {
 	return children;
 }
 
-void Clockwork::Actor::update(const sf::Time & timestep)
+void cw::Actor::update(const sf::Time & timestep)
 {
 	for (auto& child : children) child->update(timestep);
 	tick(timestep);
@@ -132,7 +118,7 @@ void Clockwork::Actor::update(const sf::Time & timestep)
 	}
 }
 
-bool Clockwork::compareLayer::operator()(const Actor * a, const Actor * b) const
+bool cw::compareLayer::operator()(const Actor * a, const Actor * b) const
 {
 	return (float)a->layer + a->getLayerZ() < (float)b->layer + b->getLayerZ();
 }

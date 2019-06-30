@@ -4,12 +4,12 @@
 #include "Material.h"
 #include <SFML/Graphics.hpp>
 #include <set>
-#include <unordered_map>
+//#include <unordered_map>
 
 #define PHYSICS_DYNAMIC 2
 #define PHYSICS_COLLISION 1
 
-namespace Clockwork {
+namespace cw {
 
 	//template<typename T> struct ActorRegister {
 	//	ActorRegister(std::string name) {
@@ -27,7 +27,7 @@ namespace Clockwork {
 		bool operator()(const Actor * a, const Actor * b) const;
 	};
 
-	extern "C" class CLOCKWORK_API Actor abstract : public sf::Transformable, public sf::Drawable
+	extern "C" class CLOCKWORK_API Actor abstract : public sf::Transformable
 	{
 		friend class Scene;
 
@@ -60,9 +60,6 @@ namespace Clockwork {
 		///<sumamry>Tick this actor and all of its children (children tick first), then update physics if applicable</summary>
 		void update(const sf::Time& timestep);
 
-		///<summary>Draws the actor and all of its children. Children will be drawn after (on top) regardless of layer.</summary>
-		void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-
 		///<summary>Get the absolute transform of this actor relative to the world origin.</summary>
 		sf::Transform getWorldTransform() const;
 
@@ -84,7 +81,7 @@ namespace Clockwork {
 		///<summary>Determines whether to draw this actor at all. Invisible actors can still tick.</summary>
 		bool visible = true;
 
-		virtual const sf::Shape& getShape() const;
+		virtual sf::Shape* getShape() const = 0;
 		
 		float getLayerZ() const;
 

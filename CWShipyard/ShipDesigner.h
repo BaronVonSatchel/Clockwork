@@ -4,7 +4,7 @@
 #include "Scene.h"
 #include "ShipBlueprint.h"
 
-class ShipDesigner : public Clockwork::Scene
+class ShipDesigner : public cw::Scene
 {
 public:
 	ShipDesigner();

@@ -15,11 +15,11 @@
 
 #define between(x, a, b) (x > a && x < b)
 
-using namespace Clockwork;
+using namespace cw;
 
 ShipDesigner::ShipDesigner()
 {
-	lighting.color = sf::Vector3f(1, 1, 1);
+	lightColor = sf::Color::White;
 }
 
 
@@ -127,7 +127,7 @@ void ShipDesigner::tick(const sf::Time & timestep)
 
 	float angle1 = ((float)lightKnob->getValue() - 90.f) * RAD_DEG;
 	float angle2 = (90.f - (float)lightSlider->getValue()) * RAD_DEG;
-	lighting.direction = sf::Vector3f(cos(angle2) * cos(angle1), cos(angle2) * -sin(angle1), -sin(angle2));
+	lightDirection = sf::Vector3f(cos(angle2) * cos(angle1), cos(angle2) * -sin(angle1), -sin(angle2));
 }
 
 void ShipDesigner::drawWorld(sf::RenderTarget & target)

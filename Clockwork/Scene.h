@@ -1,14 +1,11 @@
 #pragma once
 
-#include <set>
-#include <vector>
 #include "Clockwork.h"
 #include "SFML/Graphics.hpp"
 #include "TGUI/TGUI.hpp"
 #include "Actor.h"
-#include "PhongLighting.h"
 
-namespace Clockwork {
+namespace cw {
 	///<summary>Various global parameters regarding the world</summary>
 	extern "C" struct CLOCKWORK_API WorldSettings {
 
@@ -67,16 +64,20 @@ namespace Clockwork {
 
 		virtual void postProcess(sf::RenderTarget& target, const sf::Texture& texture);
 
+		static void staticInit();
+
 		const WorldSettings worldSettings;
 
 		sf::RenderTexture world;
 
 		bool lightingEnabled;
 
-		PhongLighting lighting;
+		//PhongLighting lighting;
 
 		sf::View worldView;
 
+		sf::Color lightColor;
+		sf::Vector3f lightDirection;
 	protected:
 		///<summary>The GUI for this Scene.</summary>
 		tgui::Gui gui;
@@ -94,8 +95,11 @@ namespace Clockwork {
 
 		std::set<Actor*, compareLayer> actors;
 
+		sf::Shader lightingShader;
 		sf::Shader depthShader;
 
 		sf::RenderTexture baseBuffer, normalBuffer, emissiveBuffer, postProcessBuffer;
+
+		static bool hasInitialized;
 	};
 }

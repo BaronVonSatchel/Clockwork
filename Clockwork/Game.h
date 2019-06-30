@@ -5,7 +5,7 @@
 #include "SFML/Graphics.hpp"
 #include "Scene.h"
 
-namespace Clockwork {
+namespace cw {
 
 	
 	///<summary>Game is the "master" class which enforces the game loop and manages the game window.</summary>

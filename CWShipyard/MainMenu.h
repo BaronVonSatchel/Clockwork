@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "Scene.h"
 
-class MainMenu : public Clockwork::Scene
+class MainMenu : public cw::Scene
 {
 public:
 	MainMenu();

@@ -5,7 +5,3 @@
 #else
 #define CLOCKWORK_API __declspec(dllimport)
 #endif
-
-namespace Clockwork {
-
-}

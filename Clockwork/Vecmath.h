@@ -4,7 +4,7 @@
 #include <cmath>
 #include <ostream>
 
-namespace Clockwork {
+namespace cw {
 	//template<typename T> class Vecmath {
 
 	//};

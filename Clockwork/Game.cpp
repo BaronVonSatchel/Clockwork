@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <iostream>
 
-using namespace Clockwork;
+using namespace cw;
 
 sf::Clock Game::gameClock;
 Game* Game::instance;
@@ -17,8 +17,9 @@ Game::~Game()
 {
 }
 
-void Clockwork::Game::init(const sf::String & title, unsigned int framerate, sf::ContextSettings windowSettings)
+void cw::Game::init(const sf::String & title, unsigned int framerate, sf::ContextSettings windowSettings)
 {
+	std::cout << "Initializing Game" << std::endl;
 	std::srand(std::time(0));
 
 	if (instance) {
@@ -64,6 +65,7 @@ void Game::start()
 
 	while (window.isOpen()) {
 		time = gameClock.getElapsedTime();
+		//std::cout << "time: " << time.asSeconds() << std::endl;
 		if (scene->isSceneChangeScheduled) {
 			setScene(scene->nextScene);
 		}
@@ -90,12 +92,12 @@ void Game::start()
 	}
 }
 
-void Clockwork::Game::quit()
+void cw::Game::quit()
 {
 	window.close();
 }
 
-void Clockwork::Game::setScene(Scene * newScene)
+void cw::Game::setScene(Scene * newScene)
 {
 	Scene* oldScene = scene;
 	scene = newScene;
@@ -103,17 +105,17 @@ void Clockwork::Game::setScene(Scene * newScene)
 	delete oldScene;
 }
 
-float Clockwork::Game::getGameTime()
+float cw::Game::getGameTime()
 {
 	return gameClock.getElapsedTime().asSeconds();
 }
 
-sf::Int32 Clockwork::Game::getGameTimeMillis()
+sf::Int32 cw::Game::getGameTimeMillis()
 {
 	return gameClock.getElapsedTime().asMilliseconds();
 }
 
-sf::Vector2i Clockwork::Game::getMousePosition()
+sf::Vector2i cw::Game::getMousePosition()
 {
 	return sf::Mouse::getPosition(instance->window);
 }
@@ -128,14 +130,14 @@ void Game::draw()
 	scene->drawScene(window);
 }
 
-void Clockwork::Game::toggleConsoleWindow()
+void cw::Game::toggleConsoleWindow()
 {
 	if (!scene->gui.remove(consoleWindow)) {
 		scene->gui.add(consoleWindow, "consoleWindow");
 	}
 }
 
-void Clockwork::Game::processDebugCommand(const sf::String & command)
+void cw::Game::processDebugCommand(const sf::String & command)
 {
 	if (command.getSize() == 0) return;
 	consoleLog->addLine("> " + command);
